@@ -9,7 +9,7 @@ Orbit is a high-performance, full-stack social networking platform designed for 
 ---
 
 ## 🚀 Live Demo
-* **Frontend:** [orbit-social-app.vercel.app](https://orbit-social-app.vercel.app/)
+* **Frontend:** [orbit-social-app.vercel.app](https://orbit-social-app-8ebu.vercel.app/)
 * **Backend API:** [orbit-social-app.onrender.com](https://orbit-social-app.onrender.com)
 
 ---
