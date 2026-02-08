@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Button, Box, Typography } from '@mui/material';
-import API from '../api'; // Updated import
+import API from '../api';
 import PostCard from '../components/PostCard';
 import CreatePost from '../components/CreatePost';
 
@@ -9,7 +9,7 @@ const Feed = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       const res = await API.get(`/posts/feed?page=${page}`);
 
@@ -21,14 +21,14 @@ const Feed = () => {
     } catch (err) {
       console.error("Error fetching posts", err);
     }
-  };
+  }, [page]);
 
   useEffect(() => {
     fetchPosts();
-  }, [page]);
+  }, [fetchPosts]);
 
   const handleNewPost = (newPost) => {
-    setPosts([newPost, ...posts]);
+    setPosts((prev) => [newPost, ...prev]);
   };
 
   return (
@@ -45,7 +45,7 @@ const Feed = () => {
 
       {hasMore && (
         <Box textAlign="center" mt={3}>
-          <Button variant="outlined" onClick={() => setPage(page + 1)}>
+          <Button variant="outlined" onClick={() => setPage((p) => p + 1)}>
             Load More Posts
           </Button>
         </Box>
