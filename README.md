@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# 🌌 Orbit Social App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue.svg)
+![License](https://img.shields.io/badge/License-ISC-green.svg)
+![Deployment](https://img.shields.io/badge/Deployment-Live-orange.svg)
 
-## Available Scripts
+Orbit is a high-performance, full-stack social networking platform designed for seamless interaction. It features a clean, modern UI and a robust MERN-stack architecture, allowing users to share thoughts, images, and engage with a global community.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Live Demo
+* **Frontend:** [orbit-social-app.vercel.app](https://orbit-social-app.vercel.app/)
+* **Backend API:** [orbit-social-app.onrender.com](https://orbit-social-app.onrender.com)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack & Architecture
 
-### `npm test`
+### **Frontend**
+* **React.js:** Declarative, component-based library for the dynamic UI.
+* **React Router:** Handles seamless client-side navigation.
+* **Axios:** Manages asynchronous API calls and request/response interceptors.
+* **Styling:** Modern CSS3 (Flexbox/Grid) with **Material UI (MUI)** and **React Bootstrap** for responsive design.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **Backend**
+* **Node.js & Express.js:** Scalable server environment and RESTful API management.
+* **JWT (JSON Web Tokens):** Secure, stateless user authentication.
+* **BcryptJS:** Industry-standard password hashing.
 
-### `npm run build`
+### **Database**
+* **MongoDB Atlas:** Cloud NoSQL database for flexible JSON-like data storage.
+* **Mongoose:** Object Modeling for Node.js, managing User and Post relationships.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ✨ Key Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [x] **Secure Auth:** Signup and Login with JWT-protected routes.
+- [x] **Flexible Posting:** Create posts with text, images, or both.
+- [x] **Smart Feed:** Chronological public feed displaying all user interactions.
+- [x] **Social Engagement:** Real-time Like/Unlike system and Comment threads.
+- [x] **Responsive UI:** Optimized for mobile, tablet, and desktop views.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📁 Project Structure
+```text
+orbit-social-app/
+├── backend/
+│   ├── models/        # Mongoose Schemas (User, Post)
+│   ├── routes/        # API Endpoints (Auth, Posts)
+│   ├── .env           # Environment Variables
+│   └── index.js       # Entry Point
+├── frontend/
+│   ├── src/
+│   │   ├── components/# Reusable UI elements
+│   │   ├── pages/     # Login, Signup, Feed
+│   │   └── App.js     # Routing logic
+│   └── public/
+└── README.md
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## ⚙️ Local Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 1. Clone the Repo:
+```bash
+git clone https://github.com/yourusername/orbit-social-app.git
+cd orbit-social-app
+```
 
-## Learn More
+### 2. Backend Setup:
+```bash
+cd backend
+npm install
+# Create a .env file and add your MONGO_URI and JWT_SECRET
+npm run dev
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 3. Frontend Setup:
+```bash
+cd frontend
+npm install
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 📡 API Reference
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/signup` | Register a new user |
+| `POST` | `/api/auth/login` | User login & JWT generation |
+| `GET` | `/api/posts/feed` | Retrieve all posts |
+| `POST` | `/api/posts/create` | Create a new post |
+| `PUT` | `/api/posts/:id/like` | Like/Unlike a post |
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🤝 Contributing
 
-### Making a Progressive Web App
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Distributed under the ISC License.
