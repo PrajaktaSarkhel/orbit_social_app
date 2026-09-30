@@ -90,6 +90,7 @@ const AuthModal = () => {
     <Dialog
       open={authModalOpen}
       onClose={closeAuthModal}
+      disableRestoreFocus
       maxWidth="xs"
       fullWidth
       PaperProps={{
@@ -105,7 +106,22 @@ const AuthModal = () => {
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 1, pr: 1 }}>
-        <IconButton onClick={closeAuthModal} sx={{ color: '#94a3b8' }} size="small">
+        <IconButton
+          aria-label="close"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAuthModal();
+          }}
+          sx={{
+            color: '#94a3b8',
+            '&:hover': {
+              color: '#0f172a',
+              backgroundColor: '#f1f5f9',
+            },
+          }}
+          size="small"
+        >
           <CloseIcon />
         </IconButton>
       </Box>

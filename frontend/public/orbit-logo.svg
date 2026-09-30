@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <!-- Cosmic Background Gradient -->
+    <linearGradient id="orbitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <!-- Planet Gradient -->
+    <linearGradient id="planetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="60%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+
+    <!-- Orbit Ring Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+
+    <!-- Subtle Outer Glow -->
+    <filter id="planetGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Dark Rounded App Icon Container -->
+  <rect width="64" height="64" rx="16" fill="url(#orbitBg)"/>
+
+  <!-- Tilted Orbit System -->
+  <g transform="rotate(-28 32 32)">
+    <!-- Back Arc of Orbit Ring (Behind Planet) -->
+    <path d="M 9 32 A 23 8 0 0 1 55 32" stroke="url(#ringGrad)" stroke-width="2.6" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Central Celestial Core (Planet) -->
+    <circle cx="32" cy="32" r="11" fill="url(#planetGrad)" filter="url(#planetGlow)"/>
+    <!-- Specular Highlight -->
+    <circle cx="28.5" cy="28.5" r="3.2" fill="#ffffff" opacity="0.45"/>
+
+    <!-- Front Arc of Orbit Ring (In Front of Planet) -->
+    <path d="M 55 32 A 23 8 0 0 1 9 32" stroke="url(#ringGrad)" stroke-width="2.6" stroke-linecap="round"/>
+
+    <!-- Orbiting Satellite Node -->
+    <circle cx="50" cy="34.5" r="3" fill="#38bdf8"/>
+    <circle cx="50" cy="34.5" r="1.4" fill="#ffffff"/>
+  </g>
+</svg>

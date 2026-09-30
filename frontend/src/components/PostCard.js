@@ -482,12 +482,24 @@ const PostCard = ({ post, onPostUpdated }) => {
                   placeholder={user ? "Write a comment..." : "Sign in to comment..."}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  onFocus={() => {
+                  onClick={(e) => {
                     if (!user) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (e.target && typeof e.target.blur === 'function') {
+                        e.target.blur();
+                      }
                       requireAuth(null, "Sign in to join the conversation and comment");
                     }
                   }}
+                  inputProps={{
+                    readOnly: !user,
+                  }}
                   sx={{
+                    cursor: !user ? 'pointer' : 'text',
+                    '& .MuiInputBase-input': {
+                      cursor: !user ? 'pointer' : 'text',
+                    },
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#ffffff',
                       borderRadius: 2.5,

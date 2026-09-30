@@ -11,13 +11,13 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
-  Explore as ExploreIcon,
   Logout as LogoutIcon,
   Login as LoginIcon,
   PersonAdd as SignupIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import OrbitLogo from './OrbitLogo';
 
 const Navbar = () => {
   const { user, isAuthenticated, logout, openAuthModal } = useAuth();
@@ -44,22 +44,12 @@ const Navbar = () => {
               alignItems: 'center',
               textDecoration: 'none',
               gap: 1.2,
+              '&:hover': {
+                opacity: 0.9,
+              },
             }}
           >
-            <Box
-              sx={{
-                width: 36,
-                height: 36,
-                borderRadius: '10px',
-                backgroundColor: '#0f172a',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 6px rgba(15, 23, 42, 0.15)',
-              }}
-            >
-              <ExploreIcon sx={{ color: '#fff', fontSize: 20 }} />
-            </Box>
+            <OrbitLogo size={36} sx={{ boxShadow: '0 2px 8px rgba(15, 23, 42, 0.18)', borderRadius: '10px' }} />
             <Box>
               <Typography
                 variant="h6"

@@ -4,8 +4,6 @@ import {
   Button,
   Box,
   Typography,
-  Tabs,
-  Tab,
   Skeleton,
   Card,
   CardHeader,
@@ -122,15 +120,23 @@ const Feed = () => {
     fetchPosts(1, activeTab, true);
   }, [activeTab, fetchPosts]);
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (newValue) => {
+    if (newValue === activeTab) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (newValue === 'saved') {
       const authorized = requireAuth(
-        () => setActiveTab('saved'),
+        () => {
+          setActiveTab('saved');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
         'Sign in to view your saved bookmarks collection'
       );
       if (!authorized) return;
     }
     setActiveTab(newValue);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNewPost = (newPost) => {
@@ -148,70 +154,66 @@ const Feed = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: { xs: 2.5, sm: 4 } }}>
-      {/* Clean Light Feed Filter Tabs */}
-      <Box
-        sx={{
-          mb: 3,
-          backgroundColor: '#ffffff',
-          borderRadius: 3,
-          p: 0.6,
-          border: '1px solid #e2e8f0',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
-        }}
-      >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="fullWidth"
+    <Container maxWidth="sm" sx={{ pt: { xs: 2, sm: 3 }, pb: { xs: 11, sm: 12 } }}>
+      {/* Category / Context Banner for Trending and Saved */}
+      {activeTab === 'saved' ? (
+        <Box
           sx={{
-            minHeight: 44,
-            '& .MuiTabs-indicator': {
-              display: 'none',
-            },
-            '& .MuiTab-root': {
-              minHeight: 38,
-              borderRadius: 2,
-              color: '#64748b',
-              textTransform: 'none',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 1,
-              transition: 'all 0.15s ease',
-              '&:hover': {
-                color: '#0f172a',
-                backgroundColor: '#f8fafc',
-              },
-              '&.Mui-selected': {
-                color: '#0f172a',
-                backgroundColor: '#f1f5f9',
-                fontWeight: 700,
-              },
-            },
+            mb: 3,
+            p: 2,
+            borderRadius: 3,
+            backgroundColor: '#ffffff',
+            border: '1px solid #e2e8f0',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
           }}
         >
-          <Tab
-            icon={<ExploreIcon sx={{ fontSize: 18 }} />}
-            iconPosition="start"
-            label="Explore"
-            value="all"
-          />
-          <Tab
-            icon={<TrendingIcon sx={{ fontSize: 18, color: activeTab === 'trending' ? '#ef4444' : 'inherit' }} />}
-            iconPosition="start"
-            label="Trending"
-            value="trending"
-          />
-          <Tab
-            icon={<BookmarkIcon sx={{ fontSize: 18, color: activeTab === 'saved' ? '#d97706' : 'inherit' }} />}
-            iconPosition="start"
-            label="Saved"
-            value="saved"
-          />
-        </Tabs>
-      </Box>
+          <Box
+            sx={{
+              width: 40,
+              height: 40,
+              borderRadius: '10px',
+              backgroundColor: '#fef3c7',
+              color: '#d97706',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <BookmarkIcon sx={{ fontSize: 22 }} />
+          </Box>
+          <Box>
+            <Typography variant="subtitle1" fontWeight="700" sx={{ color: '#0f172a', lineHeight: 1.2 }}>
+              Saved Bookmarks
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#64748b' }}>
+              Your private collection of posts saved for later
+            </Typography>
+          </Box>
+        </Box>
+      ) : activeTab === 'trending' ? (
+        <Box
+          sx={{
+            mb: 2.5,
+            p: 1.5,
+            px: 2,
+            borderRadius: 2.5,
+            backgroundColor: '#fff1f2',
+            border: '1px solid #ffe4e6',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.2,
+          }}
+        >
+          <TrendingIcon sx={{ color: '#ef4444', fontSize: 20 }} />
+          <Typography variant="body2" fontWeight="700" sx={{ color: '#9f1239' }}>
+            Trending Feed • Posts with highest community engagement
+          </Typography>
+        </Box>
+      ) : null}
 
       {/* Post Creator Box */}
       {activeTab !== 'saved' && <CreatePost onPostCreated={handleNewPost} />}
@@ -325,6 +327,157 @@ const Feed = () => {
           </Button>
         </Box>
       )}
+
+      {/* Sticky Bottom Navigation Bar (Instagram Style) */}
+      <Box
+        component="nav"
+        aria-label="Feed Navigation"
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1200,
+          backgroundColor: 'rgba(255, 255, 255, 0.94)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderTop: '1px solid #e2e8f0',
+          boxShadow: '0 -4px 20px rgba(15, 23, 42, 0.06)',
+          py: 0.8,
+          px: { xs: 1.5, sm: 2 },
+        }}
+      >
+        <Container maxWidth="sm" disableGutters>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              gap: { xs: 1, sm: 2 },
+            }}
+          >
+            {/* Explore Tab */}
+            <Button
+              onClick={() => handleTabChange('all')}
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                py: 0.8,
+                px: 1,
+                borderRadius: 2.5,
+                textTransform: 'none',
+                minWidth: 0,
+                backgroundColor: activeTab === 'all' ? '#0f172a' : 'transparent',
+                color: activeTab === 'all' ? '#ffffff' : '#64748b',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  backgroundColor: activeTab === 'all' ? '#1e293b' : '#f1f5f9',
+                  color: activeTab === 'all' ? '#ffffff' : '#0f172a',
+                },
+              }}
+            >
+              <ExploreIcon sx={{ fontSize: 22, mb: 0.25 }} />
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: activeTab === 'all' ? 700 : 500,
+                  fontSize: '0.75rem',
+                  lineHeight: 1,
+                }}
+              >
+                Explore
+              </Typography>
+            </Button>
+
+            {/* Trending Tab */}
+            <Button
+              onClick={() => handleTabChange('trending')}
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                py: 0.8,
+                px: 1,
+                borderRadius: 2.5,
+                textTransform: 'none',
+                minWidth: 0,
+                backgroundColor: activeTab === 'trending' ? '#0f172a' : 'transparent',
+                color: activeTab === 'trending' ? '#ffffff' : '#64748b',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  backgroundColor: activeTab === 'trending' ? '#1e293b' : '#f1f5f9',
+                  color: activeTab === 'trending' ? '#ffffff' : '#0f172a',
+                },
+              }}
+            >
+              <TrendingIcon
+                sx={{
+                  fontSize: 22,
+                  mb: 0.25,
+                  color: activeTab === 'trending' ? '#f87171' : 'inherit',
+                }}
+              />
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: activeTab === 'trending' ? 700 : 500,
+                  fontSize: '0.75rem',
+                  lineHeight: 1,
+                }}
+              >
+                Trending
+              </Typography>
+            </Button>
+
+            {/* Saved Tab */}
+            <Button
+              onClick={() => handleTabChange('saved')}
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                py: 0.8,
+                px: 1,
+                borderRadius: 2.5,
+                textTransform: 'none',
+                minWidth: 0,
+                backgroundColor: activeTab === 'saved' ? '#0f172a' : 'transparent',
+                color: activeTab === 'saved' ? '#ffffff' : '#64748b',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  backgroundColor: activeTab === 'saved' ? '#1e293b' : '#f1f5f9',
+                  color: activeTab === 'saved' ? '#ffffff' : '#0f172a',
+                },
+              }}
+            >
+              <BookmarkIcon
+                sx={{
+                  fontSize: 22,
+                  mb: 0.25,
+                  color: activeTab === 'saved' ? '#fbbf24' : 'inherit',
+                }}
+              />
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: activeTab === 'saved' ? 700 : 500,
+                  fontSize: '0.75rem',
+                  lineHeight: 1,
+                }}
+              >
+                Saved
+              </Typography>
+            </Button>
+          </Box>
+        </Container>
+      </Box>
     </Container>
   );
 };

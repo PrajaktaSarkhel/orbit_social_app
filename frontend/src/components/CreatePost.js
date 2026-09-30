@@ -59,8 +59,13 @@ const CreatePost = ({ onPostCreated }) => {
     }, "Join Orbit to create posts and share your thoughts");
   };
 
-  const handleInputFocus = () => {
+  const handleInputClick = (e) => {
     if (!user) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.target && typeof e.target.blur === 'function') {
+        e.target.blur();
+      }
       requireAuth(null, "Join Orbit to create and publish your posts");
     }
   };
@@ -102,14 +107,22 @@ const CreatePost = ({ onPostCreated }) => {
             }
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onFocus={handleInputFocus}
+            onClick={handleInputClick}
+            inputProps={{
+              readOnly: !user,
+            }}
             sx={{
+              cursor: !user ? 'pointer' : 'text',
+              '& .MuiInputBase-input': {
+                cursor: !user ? 'pointer' : 'text',
+              },
               '& .MuiOutlinedInput-root': {
                 backgroundColor: '#f8fafc',
                 borderRadius: 2.5,
                 color: '#0f172a',
                 fontSize: '0.95rem',
                 p: 1.5,
+                cursor: !user ? 'pointer' : 'text',
                 '& fieldset': {
                   borderColor: '#e2e8f0',
                 },
@@ -210,7 +223,13 @@ const CreatePost = ({ onPostCreated }) => {
               <Button
                 size="small"
                 startIcon={<ImageOutlined />}
-                onClick={() => setShowImageInput((prev) => !prev)}
+                onClick={() => {
+                  if (!user) {
+                    requireAuth(null, "Join Orbit to create and publish your posts");
+                    return;
+                  }
+                  setShowImageInput((prev) => !prev);
+                }}
                 sx={{
                   color: showImageInput ? '#0f172a' : '#64748b',
                   textTransform: 'none',
