@@ -12,7 +12,6 @@ import {
   IconButton,
 } from '@mui/material';
 import {
-  AutoAwesome as SparkleIcon,
   EmailOutlined,
   LockOutlined,
   PersonOutline,
@@ -21,6 +20,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import OrbitLogo from '../components/OrbitLogo';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -81,21 +81,14 @@ const Signup = () => {
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 3 }}>
-          <Box
+          <OrbitLogo
+            size={48}
             sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 48,
-              height: 48,
-              borderRadius: '12px',
-              backgroundColor: '#0f172a',
+              borderRadius: '14px',
               mb: 1.5,
-              boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)',
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.18)',
             }}
-          >
-            <SparkleIcon sx={{ color: '#fff', fontSize: 24 }} />
-          </Box>
+          />
           <Typography variant="h5" align="center" fontWeight="800" sx={{ letterSpacing: '-0.5px', color: '#0f172a' }}>
             Join the Orbit Network
           </Typography>

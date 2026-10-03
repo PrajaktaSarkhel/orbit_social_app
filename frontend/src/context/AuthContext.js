@@ -59,6 +59,25 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, openAuthModal]);
 
+  const getErrorMessage = (err, defaultMsg) => {
+    const data = err.response?.data;
+    if (!data) return err.message || defaultMsg;
+    if (typeof data === 'string') return data;
+    if (data.details && data.details.includes('buffering timed out')) {
+      return "Database connection timed out. MongoDB Atlas cluster may be offline or paused.";
+    }
+    if (data.details && data.details.includes('whitelist')) {
+      return data.details;
+    }
+    if (data.message && data.message !== "Internal Server Error") {
+      return data.message;
+    }
+    if (data.details) {
+      return data.details;
+    }
+    return data.message || defaultMsg;
+  };
+
   const login = async (email, password) => {
     try {
       const res = await API.post('/auth/login', { email, password });
@@ -80,8 +99,8 @@ export const AuthProvider = ({ children }) => {
       closeAuthModal();
       return { success: true, user: userData };
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.response?.data || "Invalid email or password";
-      return { success: false, message: typeof errorMsg === 'string' ? errorMsg : "Login failed" };
+      const errorMsg = getErrorMessage(err, "Invalid email or password");
+      return { success: false, message: errorMsg };
     }
   };
 
@@ -92,10 +111,36 @@ export const AuthProvider = ({ children }) => {
       const loginRes = await login(email, password);
       return loginRes;
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.response?.data || "Signup failed. Please check your credentials.";
-      return { success: false, message: typeof errorMsg === 'string' ? errorMsg : "Signup failed" };
+      const errorMsg = getErrorMessage(err, "Signup failed. Please check your credentials.");
+      return { success: false, message: errorMsg };
     }
   };
+
+  const loginAsDemo = useCallback((demoUsername = 'CosmicExplorer') => {
+    const demoUser = {
+      _id: 'demo_user_' + Date.now(),
+      userId: 'demo_user_' + Date.now(),
+      username: demoUsername,
+      email: 'demo@orbit.social',
+      token: 'demo_jwt_token_orbit',
+      isDemo: true,
+    };
+    setUser(demoUser);
+    localStorage.setItem('user', JSON.stringify(demoUser));
+
+    if (pendingAction && typeof pendingAction === 'function') {
+      setTimeout(() => {
+        try {
+          pendingAction(demoUser);
+        } catch (e) {
+          console.error("Pending action error:", e);
+        }
+      }, 100);
+    }
+
+    closeAuthModal();
+    return demoUser;
+  }, [pendingAction, closeAuthModal]);
 
   const logout = () => {
     setUser(null);
@@ -109,6 +154,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: Boolean(user && user.username),
         login,
         signup,
+        loginAsDemo,
         logout,
         requireAuth,
         authModalOpen,

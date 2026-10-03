@@ -30,12 +30,12 @@ if (process.env.MONGO_URI) {
     .then(async () => {
       console.log("✅ Orbit Database Connected!");
 
-      // Auto-seed sample Instagram posts if database has no posts
+      // Ensure rich Instagram sample posts exist in the database
       try {
         const Post = require('./models/Post');
         const samplePosts = require('./seedData');
-        const count = await Post.countDocuments();
-        if (count === 0) {
+        const hasSamplePost = await Post.findOne({ username: 'minimal_spaces' });
+        if (!hasSamplePost) {
           await Post.insertMany(samplePosts);
           console.log("🌱 Auto-seeded initial Instagram posts into Orbit database!");
         }
@@ -45,7 +45,12 @@ if (process.env.MONGO_URI) {
     })
     .catch((err) => {
       console.error("❌ DB Connection Failed:", err.message);
-      console.error("👉 Tip: Verify your MONGO_URI in backend/.env, check cluster address, and ensure IP 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.");
+      if (err.message && err.message.includes('bad auth')) {
+        console.error("👉 Tip: Authentication failed! The database username or password in MONGO_URI (backend/.env) is incorrect.");
+        console.error("👉 Solution: In MongoDB Atlas -> Security -> Database Access, verify the username or reset the database user's password.");
+      } else {
+        console.error("👉 Tip: Verify your MONGO_URI in backend/.env, check cluster address, and ensure IP 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.");
+      }
     });
 } else {
   console.warn("⚠️ MONGO_URI is not set in backend/.env");

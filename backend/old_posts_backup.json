@@ -1,0 +1,44 @@
+[
+  {
+    "savedBy": [],
+    "sharesCount": 0,
+    "_id": "69883f07dea7441473e5869b",
+    "userId": "69883db7dea7441473e58694",
+    "username": "hello",
+    "text": "My first post",
+    "image": "",
+    "likes": [],
+    "comments": [],
+    "createdAt": "2026-02-08T07:45:11.330Z",
+    "updatedAt": "2026-02-08T07:45:11.330Z",
+    "__v": 0
+  },
+  {
+    "savedBy": [],
+    "sharesCount": 0,
+    "_id": "69883f5adea7441473e5869d",
+    "userId": "69883db7dea7441473e58694",
+    "username": "hello",
+    "text": "Hey ya what's up guys",
+    "image": "https://i.pinimg.com/736x/0f/13/34/0f1334d9fa960f0134b6d94e0b6d4243.jpg",
+    "likes": [],
+    "comments": [],
+    "createdAt": "2026-02-08T07:46:34.476Z",
+    "updatedAt": "2026-02-08T07:46:34.476Z",
+    "__v": 0
+  },
+  {
+    "savedBy": [],
+    "sharesCount": 0,
+    "_id": "6988416adea7441473e586ae",
+    "userId": "69883db7dea7441473e58694",
+    "username": "hello",
+    "text": "It's Sunday today woohooo",
+    "image": "https://i.pinimg.com/736x/23/ba/7b/23ba7bd906dbf794e3c923a6e3fd0a69.jpg",
+    "likes": [],
+    "comments": [],
+    "createdAt": "2026-02-08T07:55:22.380Z",
+    "updatedAt": "2026-02-08T07:55:22.380Z",
+    "__v": 0
+  }
+]
