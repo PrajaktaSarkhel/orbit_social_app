@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-const path = require('path');
 require('dotenv').config();
 
 const Post = require('./models/Post');
@@ -12,15 +10,11 @@ async function runSeed() {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ Connected successfully!");
 
-    // 1. Safe backup of existing posts
-    const existingPosts = await Post.find();
-    const backupPath = path.join(__dirname, 'old_posts_backup.json');
-    fs.writeFileSync(backupPath, JSON.stringify(existingPosts, null, 2));
-    console.log(`📦 Safely backed up ${existingPosts.length} posts to: ${backupPath}`);
-
-    // 2. Remove the old test posts from user 'hello'
+    // 1. Remove old placeholder test posts from user 'hello' if any
     const deleteResult = await Post.deleteMany({ username: 'hello' });
-    console.log(`🗑️ Removed ${deleteResult.deletedCount} old test posts`);
+    if (deleteResult.deletedCount > 0) {
+      console.log(`🗑️ Removed ${deleteResult.deletedCount} old test posts`);
+    }
 
     // 3. Insert fresh curated Instagram-style sample posts
     // We recreate fresh timestamps so they are active and current

@@ -4,12 +4,19 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Helper to check DB connection before buffering
-const checkDbConnection = (res) => {
+// Helper to check DB connection before buffering (handles cold-start connecting state)
+const checkDbConnection = async (res) => {
+  if (mongoose.connection.readyState === 2) {
+    for (let i = 0; i < 6; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      if (mongoose.connection.readyState === 1) break;
+    }
+  }
+
   if (mongoose.connection.readyState !== 1) {
     return res.status(503).json({
       message: "Database temporarily unavailable",
-      details: "MongoDB connection is offline. Please verify the database user credentials in backend/.env or MongoDB Atlas cluster status."
+      details: "MongoDB connection is offline. Please verify MONGO_URI in your Render environment variables and ensure 0.0.0.0/0 is allowed in MongoDB Atlas Network Access."
     });
   }
   return null;
@@ -17,7 +24,7 @@ const checkDbConnection = (res) => {
 
 // SIGNUP
 router.post('/signup', async (req, res) => {
-  if (checkDbConnection(res)) return;
+  if (await checkDbConnection(res)) return;
 
   try {
     const { username, email, password } = req.body;
@@ -57,7 +64,7 @@ router.post('/signup', async (req, res) => {
 
 // LOGIN
 router.post('/login', async (req, res) => {
-  if (checkDbConnection(res)) return;
+  if (await checkDbConnection(res)) return;
 
   try {
     const { email, password } = req.body;

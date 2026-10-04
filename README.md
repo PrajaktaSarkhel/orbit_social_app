@@ -11,7 +11,7 @@ Orbit is a full-stack social networking platform engineered for high efficiency,
 
 ## 🚀 Live Demo
 * **Frontend:** [orbit-social-app.vercel.app](https://orbit-social-app-8ebu.vercel.app/)
-* **Backend API:** [orbit-social-app.onrender.com](https://orbit-social-app.onrender.com)
+* **Backend API:** [orbit-social-app-backend.onrender.com](https://orbit-social-app-backend.onrender.com)
 
 ---
 
@@ -99,8 +99,7 @@ orbit-social-app/
 │   │   ├── auth.js             # Signup & Login endpoints with DB health checks
 │   │   └── posts.js            # Feed, like, save, comment, and share endpoints
 │   ├── seedData.js             # Curated Instagram-style discovery posts
-│   ├── seed.js                 # Database seeder with automatic backup
-│   ├── old_posts_backup.json   # Backup of previous raw test posts
+│   ├── seed.js                 # Database seeder with sample posts
 │   ├── .env                    # Environment configuration (PORT, MONGO_URI, JWT_SECRET)
 │   ├── .env.example            # Sample configuration template
 │   ├── package.json
